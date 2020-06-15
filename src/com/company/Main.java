@@ -1,8 +1,8 @@
 package com.company;
 
-import com.company.leitores.LeitorLotofacil;
-import com.company.leitores.LeitorMegaSena;
-import com.company.leitores.LeitorQuina;
+import com.company.leitor.LeitorLotofacil;
+import com.company.leitor.LeitorMegaSena;
+import com.company.leitor.LeitorQuina;
 import com.company.view.MenuLoteria;
 
 import java.text.ParseException;

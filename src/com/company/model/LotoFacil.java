@@ -7,12 +7,15 @@ public class LotoFacil {
 
     private Integer id;
     private Date data;
+    private JogoEnum jogoEnum;
 
     private List<String> numeros = new ArrayList<>();
 
     public LotoFacil(Integer id, Date data) {
         this.id = id;
         this.data = data;
+        if(numeros.size() == 3) this.jogoEnum = jogoEnum.LOTO;
+
     }
 
     public Integer getId() {

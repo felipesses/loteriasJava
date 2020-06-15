@@ -7,12 +7,14 @@ public class MegaSena {
 
     private Integer id;
     private Date data;
+    private JogoEnum jogoEnum;
 
     private List<String> numeros = new ArrayList<>();
 
     public MegaSena(Integer id, Date data) {
         this.id = id;
         this.data = data;
+        if(numeros.size() == 1) this.jogoEnum = jogoEnum.MEGA;
     }
 
     public Integer getId() {

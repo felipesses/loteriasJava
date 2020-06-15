@@ -7,12 +7,14 @@ public class Quina {
 
     private Integer id;
     private Date data;
+    private JogoEnum jogoEnum;
 
     private List<String> numeros = new ArrayList<>();
 
     public Quina(Integer id, Date data) {
         this.id = id;
         this.data = data;
+        if(numeros.size() == 2) this.jogoEnum = jogoEnum.QUINA;
     }
 
     public Integer getId() {
