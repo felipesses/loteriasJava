@@ -1,8 +1,6 @@
 package com.company;
 
-import com.company.leitor.LeitorLotofacil;
-import com.company.leitor.LeitorMegaSena;
-import com.company.leitor.LeitorQuina;
+import com.company.leitor.LeitorLoteria;
 import com.company.view.MenuLoteria;
 
 import java.text.ParseException;
@@ -13,17 +11,18 @@ public class Main {
 	public static Scanner teclado;
 
 
+
 	public static void lerMegaSena(int opcSubMenu) throws ParseException {
 
-        LeitorMegaSena leitorMegaSena = new LeitorMegaSena();
+		LeitorLoteria leitorLoteria = new LeitorLoteria();
 
 		if (opcSubMenu == 1) {
-			leitorMegaSena.lerCincoMaiores();
+			leitorLoteria.lerCincoMaiores();
 		}
 
-		if (opcSubMenu == 2) {
-			leitorMegaSena.lerCincoMenores();
-		}
+//		if (opcSubMenu == 2) {
+//			leitorMegaSena.lerCincoMenores();
+//		}
 
 		if (opcSubMenu == 3) {
 			System.out.println("Gerar números randômicos");
@@ -32,14 +31,15 @@ public class Main {
 
 	public static void lerQuina(int opcSubMenu) throws ParseException {
 
-        LeitorQuina leitorQuina = new LeitorQuina();
+		LeitorLoteria leitorLoteria = new LeitorLoteria();
+
 		if (opcSubMenu == 1) {
-			leitorQuina.lerCincoMaiores();
+			leitorLoteria.lerCincoMaiores();
 		}
 
-		if (opcSubMenu == 2) {
-			leitorQuina.lerCincoMenores();
-		}
+//		if (opcSubMenu == 2) {
+//			leitorQuina.lerCincoMenores();
+//		}
 
 		if (opcSubMenu == 3) {
 			System.out.println("Gerar números randômicos");
@@ -49,15 +49,15 @@ public class Main {
 
 	public static void lerLotofacil(int opcSubMenu) throws ParseException {
 
-		LeitorLotofacil leitorLotofacil = new LeitorLotofacil();
+		LeitorLoteria leitorLoteria = new LeitorLoteria();
 
 		if (opcSubMenu == 1) {
-			leitorLotofacil.lerCincoMaiores();
+			leitorLoteria.lerCincoMaiores();
 		}
 
-		if (opcSubMenu == 2) {
-			leitorLotofacil.lerCincoMenores();
-		}
+//		if (opcSubMenu == 2) {
+//			leitorLotofacil.lerCincoMenores();
+//		}
 
 		if (opcSubMenu == 3) {
 			System.out.println("Gerar números randômicos");
