@@ -1,6 +1,6 @@
 package com.company.Enum;
 
-public enum JogoEnum {
+public enum KeyJogo {
     MEGA,
     LOTO,
     QUINA

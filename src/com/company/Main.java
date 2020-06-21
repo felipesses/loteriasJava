@@ -1,123 +1,112 @@
 package com.company;
 
-import com.company.leitor.LeitorLoteria;
-import com.company.view.MenuLoteria;
+import com.company.Enum.KeyJogo;
+import com.company.model.Jogo;
+import com.company.view.SubMenu;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+
 
 public class Main {
 
-	public static Scanner teclado;
+	public static final int randLoto = 25;
+	public static final int randMega = 60;
+	public static final int randQuina = 80;
 
+	public static Map<KeyJogo, int[]> jogosNumeros = new HashMap<KeyJogo, int[]>();
 
+	public static Map<KeyJogo, List<Jogo>> jogosMap = new HashMap<KeyJogo, List<Jogo>>();
+	public static Scanner sc = new Scanner(System.in);
 
-	public static void lerMegaSena(int opcSubMenu) throws ParseException {
+	public static void main(String[] args) {
 
-		LeitorLoteria leitorLoteria = new LeitorLoteria();
-
-		if (opcSubMenu == 1) {
-			leitorLoteria.lerCincoMaiores();
-		}
-
-//		if (opcSubMenu == 2) {
-//			leitorMegaSena.lerCincoMenores();
-//		}
-
-		if (opcSubMenu == 3) {
-			System.out.println("Gerar números randômicos");
-		}
-	}
-
-	public static void lerQuina(int opcSubMenu) throws ParseException {
-
-		LeitorLoteria leitorLoteria = new LeitorLoteria();
-
-		if (opcSubMenu == 1) {
-			leitorLoteria.lerCincoMaiores();
-		}
-
-//		if (opcSubMenu == 2) {
-//			leitorQuina.lerCincoMenores();
-//		}
-
-		if (opcSubMenu == 3) {
-			System.out.println("Gerar números randômicos");
-		}
-	}
-
-
-	public static void lerLotofacil(int opcSubMenu) throws ParseException {
-
-		LeitorLoteria leitorLoteria = new LeitorLoteria();
-
-		if (opcSubMenu == 1) {
-			leitorLoteria.lerCincoMaiores();
-		}
-
-//		if (opcSubMenu == 2) {
-//			leitorLotofacil.lerCincoMenores();
-//		}
-
-		if (opcSubMenu == 3) {
-			System.out.println("Gerar números randômicos");
-		}
-	}
-
-
-	public static void main(String[] args) throws ParseException {
-
-		teclado = new Scanner(System.in);
-		MenuLoteria menu = new MenuLoteria();
-
-		int opcMenu;
-		int opcSubMenu;
+		boolean continuar = true;
+		instanciaJogos();
 
 		do {
-
-			menu.menuLoteria();
-			opcMenu = teclado.nextInt();
-			teclado.nextLine();
-
-			switch (opcMenu) {
+			System.out.println("\n\n1 - Mega" + "\n2 - Quina" + "\n3 - Loto" + "\n9 - Sair" + "\n\nDigite sua opção:");
+			switch (sc.nextInt()) {
 				case 1:
-					menu.subMenuLoteria();
-					opcSubMenu = teclado.nextInt();
-
-					lerMegaSena(opcSubMenu);
-
+					SubMenu.submenu(KeyJogo.MEGA);
 					break;
+
 				case 2:
-
-					menu.subMenuLoteria();
-
-					opcSubMenu = teclado.nextInt();
-
-					lerQuina(opcSubMenu);
-
+					SubMenu.submenu(KeyJogo.QUINA);
 					break;
+
 				case 3:
-
-					menu.subMenuLoteria();
-
-					opcSubMenu = teclado.nextInt();
-
-					lerLotofacil(opcSubMenu);
-
+					SubMenu.submenu(KeyJogo.LOTO);
+					break;
+				case 9:
+					continuar = false;
 					break;
 
-                case 9:
-                    System.out.println("Obrigado!");
-
-                    break;
-
+				default:
+					System.out.println("Não encontrado");
 			}
+		} while (continuar);
 
-
-		} while (opcMenu != 9);
-
-
+		sc.close();
 	}
 
+	public static void instanciaJogos() {
+
+		String[] jogosTipos = { "LOTO", "MEGA", "QUINA" };
+		int[] numerosPossiveis = { randLoto, randMega, randQuina };
+
+		for (int i = 0; i < 3; i++) {
+			int[] modelo = new int[numerosPossiveis[i]];
+			for (int j = 0; j < numerosPossiveis[i]; j++) {
+				modelo[j] = j + 1;
+			}
+			jogosNumeros.put(KeyJogo.valueOf(jogosTipos[i]), modelo);
+		}
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		String caminho = System.getProperty("user.dir");
+		String[] nomesArquivos = { "\\lotofacil.csv", "\\mega.csv", "\\quina.csv" };
+
+		for (int i = 0; i < nomesArquivos.length; i++) {
+			jogosMap.put(KeyJogo.valueOf(jogosTipos[i]), new ArrayList<Jogo>());
+			try (BufferedReader br = new BufferedReader(new FileReader(caminho + nomesArquivos[i]))) {
+
+				String linhaAtual = br.readLine();
+
+				while (linhaAtual != null) {
+
+					Jogo jogo = new Jogo();
+
+					String[] dadosDaLinhaSeparados = linhaAtual.split(",");
+
+					jogo.setId(Long.parseLong(dadosDaLinhaSeparados[0]));
+					try {
+						jogo.setDate(sdf.parse(dadosDaLinhaSeparados[1]));
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+
+					for (int j = 2; j < dadosDaLinhaSeparados.length; j++) {
+						jogo.addNumber(dadosDaLinhaSeparados[j]);
+					}
+
+					jogosMap.get(KeyJogo.valueOf(jogosTipos[i])).add(jogo);
+
+					linhaAtual = br.readLine();
+				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 }
